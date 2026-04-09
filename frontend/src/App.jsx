@@ -33,7 +33,7 @@ function App() {
 
         {/* Right Section - 8 cols (Chat Interface) */}
         <div className="md:col-span-8 h-full bg-dark-card rounded-3xl shadow-2xl overflow-hidden border border-slate-700/50 flex flex-col">
-          <ChatInterface onStateChange={setStudentState} />
+          <ChatInterface onStateChange={setStudentState} currentState={studentState} />
         </div>
         
       </div>

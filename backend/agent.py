@@ -4,7 +4,6 @@ import operator
 from pydantic import BaseModel, Field
 from langchain_core.messages import BaseMessage, HumanMessage, AIMessage, SystemMessage
 from langgraph.graph import StateGraph, START, END
-from langgraph.checkpoint.memory import MemorySaver
 
 # Make sure you have GROQ_API_KEY set in .env
 from langchain_groq import ChatGroq
@@ -158,6 +157,6 @@ workflow.add_edge("hr_node", END)
 workflow.add_edge("resume_node", END)
 workflow.add_edge("predict_node", END)
 
-# Memory saver allows us to keep session state across requests
-memory = MemorySaver()
-app = workflow.compile(checkpointer=memory)
+# Stateless compile — session state is managed on the client (frontend)
+# This makes the backend fully serverless-compatible (Vercel, AWS Lambda, etc.)
+app = workflow.compile()

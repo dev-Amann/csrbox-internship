@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 
-export default function ChatInterface({ onStateChange }) {
+export default function ChatInterface({ onStateChange, currentState }) {
   const [messages, setMessages] = useState([
     { role: 'ai', text: "Welcome to PathEdge! What role are you targeting and where are you located? We can do a Technical, HR, Resume Review, or I can generate a Job Prediction report based on your skills and local market!" }
   ]);
@@ -8,8 +8,7 @@ export default function ChatInterface({ onStateChange }) {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
-  // Use a constant session ID for simplicity in this demo
-  const sessionId = useRef(Math.random().toString(36).substring(7)).current;
+
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -25,16 +24,20 @@ export default function ChatInterface({ onStateChange }) {
 
     const userMessage = input;
     setInput('');
-    setMessages(prev => [...prev, { role: 'user', text: userMessage }]);
+    const newMessages = [...messages, { role: 'user', text: userMessage }];
+    setMessages(newMessages);
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:8000/api/chat', {
+      const apiUrl = import.meta.env.PROD ? '/api/chat' : 'http://localhost:8000/api/chat';
+
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          session_id: sessionId,
-          message: userMessage
+          message: userMessage,
+          message_history: messages.map(m => ({ role: m.role, text: m.text })),
+          session_state: currentState
         })
       });
 
