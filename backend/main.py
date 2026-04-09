@@ -17,6 +17,7 @@ load_dotenv()
 app = FastAPI(title="PathEdge API")
 
 @app.get("/api/health")
+@app.get("/health")
 async def health_check():
     return {"status": "ok", "message": "PathEdge API is running smoothly!"}
 
@@ -69,6 +70,7 @@ def parse_state_for_frontend(state: dict) -> dict:
     }
 
 @app.post("/api/chat", response_model=ChatResponse)
+@app.post("/chat", response_model=ChatResponse)
 async def chat_endpoint(request: ChatRequest):
     try:
         # Reconstruct message history from frontend payload
