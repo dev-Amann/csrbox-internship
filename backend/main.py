@@ -6,7 +6,10 @@ from typing import Optional, List, Dict, Any
 from langchain_core.messages import HumanMessage, AIMessage
 from dotenv import load_dotenv
 
-from agent import app as langgraph_app
+try:
+    from backend.agent import app as langgraph_app
+except ImportError:
+    from agent import app as langgraph_app
 from supabase import create_client, Client
 
 load_dotenv()
