@@ -13,6 +13,10 @@ load_dotenv()
 
 app = FastAPI(title="PathEdge API")
 
+@app.get("/api/health")
+async def health_check():
+    return {"status": "ok", "message": "PathEdge API is running smoothly!"}
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"], 

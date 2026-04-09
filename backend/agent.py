@@ -11,8 +11,11 @@ from langchain_groq import ChatGroq
 from dotenv import load_dotenv
 load_dotenv()
 
-# Initialize LLM
-llm = ChatGroq(model="llama-3.3-70b-versatile", temperature=0.7)
+# Initialize LLM lazily
+def get_llm():
+    return ChatGroq(model="llama-3.3-70b-versatile", temperature=0.7)
+
+llm = get_llm()
 
 # Define State
 class InterviewState(TypedDict):
