@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+langgraph
+langchain-google-genai
+langchain-groq
+langchain-openai
+langchain-core
+supabase
+pydantic
+python-dotenv
